@@ -28,13 +28,6 @@ Scripts::~Scripts ()
 {
 }
 
-void Scripts::ReAddScript (const char *name)
-{
-	printf ("Scripts::ReAddScript(%s)\n", name) ;
-	LuaStack *lua = new LuaStack(name) ;
-	push_back(lua); 
-}
-
 void Scripts::AddScript (const char *name)
 {
 	printf ("Scripts::AddScript(%s)\n", name) ;

@@ -35,7 +35,6 @@ public:
 	void			ReloadScript () ;
 	void			Plugins () ;
         void			AddScript (const char * name) ;
-        void            ReAddScript (const char * name) ;
         virtual void Run() ;
 	virtual void Init() ;
 	virtual void Start() ;
