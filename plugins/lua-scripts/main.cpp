@@ -3,7 +3,7 @@
 #include "Scripts.h"
 
 using namespace ydle ;
-
+//Scripts *g_Scripts;
 
 extern "C" {
 int	LoadPlugins (Kernel & k)

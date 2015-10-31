@@ -28,6 +28,7 @@ public:
 private:
 	static int l_getVal (lua_State*) ;
 	static int l_setVal (lua_State*) ;
+        static int l_addScript (lua_State*) ;
 //FETS		static int l_getTime (lua_State*) ;
 	lua_State *L;
 	std::string	name;

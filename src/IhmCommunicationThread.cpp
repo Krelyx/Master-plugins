@@ -119,7 +119,7 @@ int IhmCommunicationThread::putFrame(Frame_t & frame)
 
 		RestBrowser browser(this->web_address);
 		stringstream buf;
-		buf << "sender=" << sender << "&type=" << data.type << "&data=" << data.val << "\r\n" ;
+		buf << "sender=" << sender << "&type=" << data.type << "&value=" << data.val << "\r\n" ;
 		browser.doPost(request.str(), buf.str());
 		index++;
 	}

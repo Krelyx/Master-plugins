@@ -9,9 +9,19 @@
 
 #include "LuaStack.h"
 #include "DataAccess.h"
+#include "Scripts.h"
 
 #define DDD printf ("l:%d gettop=%d\n", __LINE__, lua_gettop(L));
 using namespace ydle ;
+//extern Scripts *g_Scripts;
+
+/*int LuaStack::l_addScript(lua_State *L)
+{
+    const char * nom = luaL_checkstring(L, -1);
+    g_Scripts->AddScript(nom);
+    return 1;
+}
+ */
 
 int LuaStack::l_getVal(lua_State *L)
 {
@@ -79,6 +89,7 @@ void LuaStack::setScript(std::string script)
 
 	DECL_LUA_FUNC(getVal);
 	DECL_LUA_FUNC(setVal);
+       // DECL_LUA_FUNC(addScript); 
 //FETS		DECL_LUA_FUNC(getTime);
 
 	name = script ;

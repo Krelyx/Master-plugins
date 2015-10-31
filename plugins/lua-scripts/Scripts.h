@@ -29,12 +29,14 @@ private:
 
 class Scripts : public ListPtr<LuaStack>, public IFeature, public Thread {
 public:
-	Scripts (std::string nom) ;
+        Scripts (std::string nom) ;
 	virtual ~Scripts () ;
 	void			LoadScript () ;
+	void			ReloadScript () ;
 	void			Plugins () ;
-	void			AddScript (const char * name) ;
-	virtual void Run() ;
+        void			AddScript (const char * name) ;
+        void            ReAddScript (const char * name) ;
+        virtual void Run() ;
 	virtual void Init() ;
 	virtual void Start() ;
 protected:

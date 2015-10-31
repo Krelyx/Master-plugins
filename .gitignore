@@ -12,3 +12,6 @@
 
 # binary 
 bin/
+
+# dir
+nbproject/

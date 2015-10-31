@@ -7,9 +7,9 @@
  **/
 
 
-
+#include <iostream>
 #include "master.h"
-#include <wiringPi.h>
+//#include <wiringPi.h>
 
 #include <signal.h>
 #include <stdexcept>
@@ -48,10 +48,10 @@ int main(int argc, char** argv)
 		return 1;
 	}
 	//End the program if the wiringPi library is not found
-	if (wiringPiSetup() == -1) {
+	/*if (wiringPiSetup() == -1) {
 		YDLE_FATAL << "Error : Library wiringPi not found" << std::endl;
 		return -1;
-	}
+	}*/
 
 	Master master (argc, argv) ;
 
@@ -79,6 +79,8 @@ int main(int argc, char** argv)
 	try {
 		WebServer::NodeRequestHandler* n = new WebServer::NodeRequestHandler(master.NodesMgr());
 		server->RegisterHandler("/node", n);
+                WebServer::MasterRequestHandler* m = new WebServer::MasterRequestHandler(master.ScriptsMgr());
+		server->RegisterHandler("/master", m);
 		server->Init();
 		server->Run();
 
@@ -117,6 +119,7 @@ Master::Master (int argc, char **argv)
 	InitProtocols () ;
 	InitFeatures () ;
 	_nodesManager.Init (&_kernel) ;
+	_scriptsManager.Init (&_kernel) ;
 }
 
 void	Master::InitProtocols ()

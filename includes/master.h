@@ -16,6 +16,8 @@
 #include "SettingsParser.h"
 #include "IhmCommunicationThread.h"
 #include "NodeRequestHandler.h"
+#include "MasterRequestHandler.h"
+#include "ScriptsManager.h"
 #include "logging.h"
 #include <memory>
 #include <string>
@@ -29,6 +31,7 @@ public:
 	void	StartComm() ;
 	void	Start() ;
 	NodesManager * NodesMgr () {return &_nodesManager ; }
+	ScriptsManager * ScriptsMgr () {return &_scriptsManager ; }
 private:
 	void	InitLog () ;
 	void	InitRestLog();
@@ -44,6 +47,7 @@ private:
 	std::unique_ptr<IhmCommunicationThread> _pCom;
 	Kernel				_kernel ;
 	NodesManager		_nodesManager ;
+        ScriptsManager          _scriptsManager ;
 } ;
 
 } ; // namespace ydle

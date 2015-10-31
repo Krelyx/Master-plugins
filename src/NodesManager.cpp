@@ -1,6 +1,6 @@
 #include "NodesManager.h"
 #include "logging.h"
-
+#include <iostream>
 using namespace ydle ;
 using namespace std ;
 

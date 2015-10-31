@@ -16,6 +16,7 @@
 using namespace ydle ;
 using namespace std ;
 
+
 //===============================================
 
 //===============================================
@@ -27,6 +28,13 @@ Scripts::~Scripts ()
 {
 }
 
+void Scripts::ReAddScript (const char *name)
+{
+	printf ("Scripts::ReAddScript(%s)\n", name) ;
+	LuaStack *lua = new LuaStack(name) ;
+	push_back(lua); 
+}
+
 void Scripts::AddScript (const char *name)
 {
 	printf ("Scripts::AddScript(%s)\n", name) ;
@@ -34,10 +42,25 @@ void Scripts::AddScript (const char *name)
 	push_back(lua); 
 }
 
+void Scripts::ReloadScript ()
+{
+	string dir = PARAM_STR("lua-scripts.scripts_dir");
+        string dir_reload = dir + "/reload" ;
+	string pattern = PARAM_STR("lua-scripts.pattern");
+	StringList filesToReload ;
+	ListFiles (dir_reload.c_str(), pattern.c_str(), filesToReload) ;
 
+	for (StringList::iterator it = filesToReload.begin(); it != filesToReload.end(); ++it) {
+		string full_reload = dir_reload + "/" + it->c_str() ;
+		string full = dir + "/" + it->c_str() ;
+		AddScript (full.c_str()) ;
+                std::remove(full_reload.c_str());
+	}
+	
+}
 void Scripts::LoadScript ()
 {
-	string dir = PARAM_STR("lua-scripts.dir");
+	string dir = PARAM_STR("lua-scripts.scripts_dir");
 	string pattern = PARAM_STR("lua-scripts.pattern");
 	StringList files ;
 	ListFiles (dir.c_str(), pattern.c_str(), files) ;
@@ -105,6 +128,7 @@ void Scripts::ThreadAction()
 {
 	Run () ;
 	Pause();
+	LoadScript();
 }
 
 void Scripts::ThreadEnd()
