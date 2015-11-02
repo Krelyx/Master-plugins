@@ -31,8 +31,10 @@ class Scripts : public ListPtr<LuaStack>, public IFeature, public Thread {
 public:
         Scripts (std::string nom) ;
 	virtual ~Scripts () ;
-	void			LoadScript () ;
+	void			LoadScripts () ;
        	void                    ReloadScript (const char * name) ;
+       	void                    LoadScript (const char * name) ;
+       	void                    UnloadScript (const char * name) ;
 	void			Plugins () ;
         void			AddScript (const char * name) ;
         virtual void Run() ;

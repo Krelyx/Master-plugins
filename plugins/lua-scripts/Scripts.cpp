@@ -44,15 +44,34 @@ void Scripts::ReloadScript (const char *name)
         lua->init () ;
 
 }
+void Scripts::LoadScript (const char *name)
+{
+        printf ("Scripts::LoadScript(%s)\n", name) ;
+	LuaStack *lua = new LuaStack(name) ;
+	push_back(lua); 
+        lua->init () ;
+
+}
+void Scripts::UnloadScript (const char *name)
+{
+    printf ("Scripts::UnloadScript(%s)\n", name) ;    
+    for (auto it = begin(); it != end(); it++) {
+            if ( strcmp((*it)->NameStr(),name)==0){
+                delete *it ;
+                erase(it);
+                break;
+            }
+	}    
+}
 void Scripts::AddScript (const char *name)
 {
 	printf ("Scripts::AddScript(%s)\n", name) ;
 	LuaStack *lua = new LuaStack(name) ;
 	push_back(lua); 
 }
-void Scripts::LoadScript ()
+void Scripts::LoadScripts ()
 {
-	string dir = PARAM_STR("lua-scripts.scripts_dir");
+	string dir = PARAM_STR("lua-scripts.running_scripts_dir");
 	string pattern = PARAM_STR("lua-scripts.pattern");
 	StringList files ;
 	ListFiles (dir.c_str(), pattern.c_str(), files) ;
@@ -68,7 +87,7 @@ void Scripts::Plugins()
 	string plugins_dir = PARAM_STR("lua-scripts.plugins_dir");
 
 	if (size () == 0)  {
-		printf ("ERROR : no scripts!!!!!!!!!\n") ;
+		printf ("ERROR : no plugins!!!!!!!!!\n") ;
 		return ;
 	}
 
@@ -92,8 +111,8 @@ printf ("%d  lua<%s>\n", __LINE__, lua->NameStr());
 void Scripts::Init()
 {	
 	SetPauseMs (PARAM_INT("lua-scripts:pause")) ; // pause 2 secondes
-	LoadScript () ;
-	//Plugins () ;
+	LoadScripts () ;
+	Plugins () ;
 	for (iterator it = begin(); it != end(); it++) {
 		(*it)->init () ;
 	}

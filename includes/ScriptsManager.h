@@ -30,6 +30,8 @@ public:
 	ScriptsManager () {}; 
         void Init (Kernel * k) ;
         virtual int	ReloadScript (string script_file) ;	
+        virtual int	LoadScript (string script_file) ;	
+        virtual int	UnloadScript (string script_file) ;	
 private:
 
 	Kernel::FeatureList	* pFeatures ;

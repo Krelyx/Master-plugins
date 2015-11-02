@@ -42,3 +42,33 @@ int	ScriptsManager::ReloadScript (string script_file)
     
 	return 1 ;
 }
+int	ScriptsManager::LoadScript (string script_file)
+{
+    YDLE_DEBUG <<  script_file  <<std::endl;
+    string script = PARAM_STR("lua-scripts.scripts_dir")+ "/"+ script_file + ".lua" ;
+    for( Kernel::FeatureList::iterator it = pFeatures->begin(); it != pFeatures->end(); ++it) {
+		IFeature * feature = *it ;
+        //        IFeature  feature = "lua-script";
+                //feature->AddScript (script.c_str()) ;
+                feature->LoadScript(script.c_str());
+                printf ("\tFeature : %s:LoadScript \n", feature->Name().c_str()) ;
+        //intf("\t Test \n");
+        }
+    
+	return 1 ;
+}
+int	ScriptsManager::UnloadScript (string script_file)
+{
+    YDLE_DEBUG <<  script_file  <<std::endl;
+    string script = PARAM_STR("lua-scripts.scripts_dir")+ "/"+ script_file + ".lua" ;
+    for( Kernel::FeatureList::iterator it = pFeatures->begin(); it != pFeatures->end(); ++it) {
+		IFeature * feature = *it ;
+        //        IFeature  feature = "lua-script";
+                //feature->AddScript (script.c_str()) ;
+                feature->UnloadScript(script.c_str());
+                printf ("\tFeature : %s:UnloadScript \n", feature->Name().c_str()) ;
+        //intf("\t Test \n");
+        }
+    
+	return 1 ;
+}

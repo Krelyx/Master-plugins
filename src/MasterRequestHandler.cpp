@@ -88,41 +88,17 @@ int MasterRequestHandler::ActivateScript(string script_file, int* result)
 {
 	YDLE_DEBUG << "enter in ActivateScript " << script_file  <<std::endl;
 
-  	//send signal NBSEND time
-	for (int i=0; i<NBSEND; i++)
-    {
 	string scripts_dir = PARAM_STR("lua-scripts.scripts_dir");
-        string file_in = scripts_dir + "/" + script_file + ".lua" ;
-        string tmpfile = scripts_dir + "/tmp.lua" ;
-        std::ifstream file_in_stream (file_in.c_str() ) ; // On essaye d'ouvrir le fichier
-        std::ofstream tmpfile_stream (tmpfile.c_str()); 
-	
-        file_in_stream.seekg(0,std::ios::beg);
-	string line ;
-	getline(file_in_stream, line);
-      
-	line.replace(20,5,"true");
-	tmpfile_stream << line << std::endl;
-	while(std::getline(file_in_stream, line))
-	{
-		tmpfile_stream << line << std::endl;
-	}
-	file_in_stream.close();
-	tmpfile_stream.close();
-	std::remove(file_in.c_str());
-        string file_out = scripts_dir + "/" + script_file + ".lua" ;
-	std::rename(tmpfile.c_str(),file_out.c_str());
-    /*    //Copie dans reload
-        std::ifstream src( file_out.c_str() ,std::ios::binary);
-        string file_reload = scripts_dir + "/reload/" + script_file + ".lua" ;
-        std::ofstream dst( file_reload.c_str() ,std::ios::binary);
+        string script_to_load = scripts_dir + "/" + script_file + ".lua" ;
+        string running_scripts_dir = PARAM_STR("lua-scripts.running_scripts_dir");
+        std::ifstream src( script_to_load.c_str() ,std::ios::binary);
+        string script_loaded = running_scripts_dir + "/" + script_file + ".lua" ;
+        std::ofstream dst( script_loaded.c_str() ,std::ios::binary);
         dst<<src.rdbuf();
         src.close();
         dst.close();
-        //*/
         
-            _pScripts->ReloadScript (script_file);
-    }
+            _pScripts->LoadScript (script_file);
 
 	*result = 1;
 	return 1;
@@ -131,41 +107,11 @@ int MasterRequestHandler::DesactivateScript(string script_file, int* result)
 {
 	YDLE_DEBUG << "enter in DesactivateScript " << script_file  <<std::endl;
 
-  	//send signal NBSEND time
-	for (int i=0; i<NBSEND; i++)
-    {
-	string scripts_dir = PARAM_STR("lua-scripts.scripts_dir");
-        string file_in = scripts_dir + "/" + script_file + ".lua" ;
-        string tmpfile = scripts_dir + "/tmp.lua" ;
-        std::ifstream file_in_stream (file_in.c_str() ) ; // On essaye d'ouvrir le fichier
-        std::ofstream tmpfile_stream (tmpfile.c_str()); 
-	
-        file_in_stream.seekg(0,std::ios::beg);
-	string line ;
-	getline(file_in_stream, line);
+	string running_scripts_dir = PARAM_STR("lua-scripts.running_scripts_dir");
+        string script_to_unload = running_scripts_dir + "/" + script_file + ".lua" ;
+        std::remove(script_to_unload.c_str());
         
-	line.replace(20,4,"false");
-	tmpfile_stream << line << std::endl;
-	while(std::getline(file_in_stream, line))
-	{
-		tmpfile_stream << line << std::endl;
-	}
-	file_in_stream.close();
-	tmpfile_stream.close();
-	std::remove(file_in.c_str());
-        string file_out = scripts_dir + "/" + script_file + ".lua" ;
-	std::rename(tmpfile.c_str(),file_out.c_str());
-        /*        //Copie dans reload
-        std::ifstream src( file_out.c_str() ,std::ios::binary);
-        string file_reload = scripts_dir + "/reload/" + script_file + ".lua" ;
-        std::ofstream dst( file_reload.c_str() ,std::ios::binary);
-        dst<<src.rdbuf();
-        src.close();
-        dst.close();
-        //*/
-            _pScripts->ReloadScript (script_file);
-		//nanosleep(&WaitEndCmommand,NULL); // Delay 400 mili. this prevend lost frame if multi transmit
-    }
+            _pScripts->UnloadScript (script_file);
 
 	*result = 1;
 	return 1;

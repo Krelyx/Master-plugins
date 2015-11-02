@@ -22,6 +22,8 @@ class IScriptsManager
 public:
 	virtual ~IScriptsManager () {}
 	virtual int	ReloadScript (std::string script_file) = 0 ;
+	virtual int	LoadScript (std::string script_file) = 0 ;
+	virtual int	UnloadScript (std::string script_file) = 0 ;
 } ;
 
 } // namespace ydle
