@@ -1,7 +1,9 @@
-isActivated = false
+local isActivated = true
 --[[ 
 Test
 ]]--
+
+
 function init()
 	print ("Test_Xylerk::init");
 	setVal ("123.temperature", 20) ;
@@ -14,14 +16,9 @@ function test()
 	print ("temperature node 123:", temp_123, "humidity: node 123", humid_123)
 end
 
-
 function action()
 
 	if isActivated == true then
-		
-		test()
-	else 
-		print("Not activated")
+		test ()
 	end
-
 end

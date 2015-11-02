@@ -28,9 +28,6 @@ protected:
 	int NodeGeneric2(int sender, int target, int cmd, int* result) ;
 	int NodeGeneric3(int sender, int target, int id, int cmd, int* result) ;
 	void	SetResponse (Json::Value &r, const char * result, const char * msg) ;
-        //void ManageScript(const HTTPRequest *request, Json::Value &r);
-        //int ActivateScript(string script_file, int* result);
- 
 };
 
 } /* namespace WebServer */

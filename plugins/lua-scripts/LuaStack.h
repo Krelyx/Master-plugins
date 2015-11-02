@@ -20,7 +20,7 @@ public:
 	LuaStack();
 	LuaStack(std::string nom);
 	virtual ~LuaStack();
-	void setScript(std::string script);
+	void    setScript(std::string script);
 	void	init();
 	void	action();
 	lua_State*	State()  {return L ;}

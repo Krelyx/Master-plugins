@@ -11,7 +11,9 @@
 #include "Dir.h"
 #include "Scripts.h"
 #include "SettingsParser.h"
-
+#include <string>
+#include "ListPtr.h"
+#include <cstring>    
 
 using namespace ydle ;
 using namespace std ;
@@ -27,29 +29,26 @@ Scripts::Scripts (std::string nom) : IFeature(nom)
 Scripts::~Scripts ()
 {
 }
+void Scripts::ReloadScript (const char *name)
+{
+        for (auto it = begin(); it != end(); it++) {
+            if ( strcmp((*it)->NameStr(),name)==0){
+                delete *it ;
+                erase(it);
+                break;
+            }
+	}
+        printf ("Scripts::ReloadScript(%s)\n", name) ;
+	LuaStack *lua = new LuaStack(name) ;
+	push_back(lua); 
+        lua->init () ;
 
+}
 void Scripts::AddScript (const char *name)
 {
 	printf ("Scripts::AddScript(%s)\n", name) ;
 	LuaStack *lua = new LuaStack(name) ;
 	push_back(lua); 
-}
-
-void Scripts::ReloadScript ()
-{
-	string dir = PARAM_STR("lua-scripts.scripts_dir");
-        string dir_reload = dir + "/reload" ;
-	string pattern = PARAM_STR("lua-scripts.pattern");
-	StringList filesToReload ;
-	ListFiles (dir_reload.c_str(), pattern.c_str(), filesToReload) ;
-
-	for (StringList::iterator it = filesToReload.begin(); it != filesToReload.end(); ++it) {
-		string full_reload = dir_reload + "/" + it->c_str() ;
-		string full = dir + "/" + it->c_str() ;
-		AddScript (full.c_str()) ;
-                std::remove(full_reload.c_str());
-	}
-	
 }
 void Scripts::LoadScript ()
 {
@@ -60,7 +59,7 @@ void Scripts::LoadScript ()
 
 	for (StringList::iterator it = files.begin(); it != files.end(); ++it) {
 		string full = dir + "/" + it->c_str() ;
-		AddScript (full.c_str()) ;
+                AddScript (full.c_str()) ;
 	}
 
 }
@@ -91,11 +90,10 @@ printf ("%d  lua<%s>\n", __LINE__, lua->NameStr());
 }
 
 void Scripts::Init()
-{
-	
+{	
 	SetPauseMs (PARAM_INT("lua-scripts:pause")) ; // pause 2 secondes
 	LoadScript () ;
-	Plugins () ;
+	//Plugins () ;
 	for (iterator it = begin(); it != end(); it++) {
 		(*it)->init () ;
 	}
@@ -120,8 +118,7 @@ void Scripts::ThreadBegin()
 void Scripts::ThreadAction()
 {
 	Run () ;
-	Pause();
-	LoadScript();
+        Pause () ;
 }
 
 void Scripts::ThreadEnd()

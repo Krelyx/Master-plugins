@@ -16,7 +16,6 @@ using namespace ydle ;
 
 namespace WebServer {
     #define NBSEND 1
-//static struct timespec WaitEndCmommand={0,900000000L};
 
 MasterRequestHandler::MasterRequestHandler(IScriptsManager* m) : _pScripts(m)
 {
@@ -102,7 +101,7 @@ int MasterRequestHandler::ActivateScript(string script_file, int* result)
 	string line ;
 	getline(file_in_stream, line);
       
-	line.replace(14,5,"true");
+	line.replace(20,5,"true");
 	tmpfile_stream << line << std::endl;
 	while(std::getline(file_in_stream, line))
 	{
@@ -113,16 +112,16 @@ int MasterRequestHandler::ActivateScript(string script_file, int* result)
 	std::remove(file_in.c_str());
         string file_out = scripts_dir + "/" + script_file + ".lua" ;
 	std::rename(tmpfile.c_str(),file_out.c_str());
-        //Copie dans reload
+    /*    //Copie dans reload
         std::ifstream src( file_out.c_str() ,std::ios::binary);
         string file_reload = scripts_dir + "/reload/" + script_file + ".lua" ;
         std::ofstream dst( file_reload.c_str() ,std::ios::binary);
         dst<<src.rdbuf();
         src.close();
         dst.close();
-        //
+        //*/
         
-            //_pScripts->ReloadScript (script_file);
+            _pScripts->ReloadScript (script_file);
     }
 
 	*result = 1;
@@ -145,7 +144,7 @@ int MasterRequestHandler::DesactivateScript(string script_file, int* result)
 	string line ;
 	getline(file_in_stream, line);
         
-	line.replace(14,4,"false");
+	line.replace(20,4,"false");
 	tmpfile_stream << line << std::endl;
 	while(std::getline(file_in_stream, line))
 	{
@@ -156,15 +155,15 @@ int MasterRequestHandler::DesactivateScript(string script_file, int* result)
 	std::remove(file_in.c_str());
         string file_out = scripts_dir + "/" + script_file + ".lua" ;
 	std::rename(tmpfile.c_str(),file_out.c_str());
-                //Copie dans reload
+        /*        //Copie dans reload
         std::ifstream src( file_out.c_str() ,std::ios::binary);
         string file_reload = scripts_dir + "/reload/" + script_file + ".lua" ;
         std::ofstream dst( file_reload.c_str() ,std::ios::binary);
         dst<<src.rdbuf();
         src.close();
         dst.close();
-        //
-          //  _pScripts->ReloadScript (script_file);
+        //*/
+            _pScripts->ReloadScript (script_file);
 		//nanosleep(&WaitEndCmommand,NULL); // Delay 400 mili. this prevend lost frame if multi transmit
     }
 

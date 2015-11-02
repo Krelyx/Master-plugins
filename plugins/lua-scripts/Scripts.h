@@ -32,7 +32,7 @@ public:
         Scripts (std::string nom) ;
 	virtual ~Scripts () ;
 	void			LoadScript () ;
-	void			ReloadScript () ;
+       	void                    ReloadScript (const char * name) ;
 	void			Plugins () ;
         void			AddScript (const char * name) ;
         virtual void Run() ;

@@ -13,15 +13,6 @@
 
 #define DDD printf ("l:%d gettop=%d\n", __LINE__, lua_gettop(L));
 using namespace ydle ;
-//extern Scripts *g_Scripts;
-
-/*int LuaStack::l_addScript(lua_State *L)
-{
-    const char * nom = luaL_checkstring(L, -1);
-    g_Scripts->AddScript(nom);
-    return 1;
-}
- */
 
 int LuaStack::l_getVal(lua_State *L)
 {
@@ -39,7 +30,7 @@ int LuaStack::l_setVal(lua_State *L)
 {
   const char * nom = luaL_checkstring(L, 1);
   double val = luaL_checknumber(L, 2);
-//FETS	  printf ("Set(%s)=%g\n", nom, val);
+	  printf ("Set(%s)=%g\n", nom, val);
   DATA[nom] = val ;
   return 1;
 }
@@ -63,7 +54,7 @@ LuaStack::LuaStack()
 LuaStack::LuaStack(std::string script)
 {
 	L = luaL_newstate();
-	setScript (script);
+        setScript (script);
 }
 
 void LuaStack::init()
@@ -83,13 +74,12 @@ void LuaStack::action()
 void LuaStack::setScript(std::string script)
 {
 	luaL_openlibs(L);
-
+        
 #define DECL_LUA_FUNC(nom)	lua_pushcfunction(L, l_##nom);	\
 	lua_setglobal(L, #nom);
 
 	DECL_LUA_FUNC(getVal);
 	DECL_LUA_FUNC(setVal);
-       // DECL_LUA_FUNC(addScript); 
 //FETS		DECL_LUA_FUNC(getTime);
 
 	name = script ;

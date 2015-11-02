@@ -15,7 +15,7 @@ public:
 	virtual void Init ()  = 0 ;
 	virtual void Start ()  = 0 ;
         virtual void AddScript( const char * name) = 0 ;
-
+        virtual void ReloadScript(const char * name) = 0;
 //protected:
 } ;
 

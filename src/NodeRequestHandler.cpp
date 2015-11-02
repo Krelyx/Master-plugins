@@ -55,9 +55,6 @@ int NodeRequestHandler::Run(const HTTPRequest *request, HTTPResponse *response) 
 		Manage2Param (request, root, CMD_LINK) ;
 	}else if(url.compare("reset") == 0){
 		Manage2Param (request, root, CMD_RESET) ;
-	/*}else if (url.compare("script") == 0){
-                ManageScript( request, root);
-         */
         }else if(url.compare("") != 0){
 		SetResponse (root, NULL, "node information") ;
         }
@@ -157,62 +154,5 @@ int NodeRequestHandler::NodeGeneric2(int sender, int target, int cmd, int* resul
 	*result = 1;
 	return 1;
 }
-/*void NodeRequestHandler::ManageScript (const HTTPRequest *request, Json::Value & root)
-{
-	//YDLE_DEBUG << "enter in ManageScript "  <<std::endl;
-        string script_file = request->GetParameter("script-file");
-	//string sender = request->GetParameter("sender");
-
-	if (script_file.length() == 0) {
-		SetResponse (root, "ko", " parameter <target> is missing") ;
-	//} else if (sender.length() == 0) {
-	//	SetResponse (root, "ko", " parameter <sender> is missing") ;
-	}else{
-		int result;
-		ActivateScript (script_file.c_str(), &result);
-		SetResponse (root, "ok", NULL) ;
-	}
-}
-
-int NodeRequestHandler::ActivateScript(string script_file, int* result)
-{
-	YDLE_DEBUG << "enter in ActivateScript " << script_file  <<std::endl;
-
-  	//send signal NBSEND time
-	for (int i=0; i<NBSEND; i++)
-    {
-	string scripts_dir = PARAM_STR("lua-scripts.scripts_dir");
-        string file_in = scripts_dir + "/" + script_file + ".lua" ;
-        string tmpfile = scripts_dir + "/tmp.lua" ;
-        std::ifstream file_in_stream (file_in.c_str() ) ; // On essaye d'ouvrir le fichier
-        std::ofstream tmpfile_stream (tmpfile.c_str()); 
-	
-        file_in_stream.seekg(0,std::ios::beg);
-	string line ;
-	getline(file_in_stream, line);
-        YDLE_DEBUG <<  line  <<std::endl;
-	line.replace(11,5,"true");
-	tmpfile_stream << line << std::endl;
-	while(std::getline(file_in_stream, line))
-	{
-		tmpfile_stream << line << std::endl;
-	}
-	file_in_stream.close();
-	tmpfile_stream.close();
-	std::remove(file_in.c_str());
-        string file_out = scripts_dir + "/" + script_file + ".lua" ;
-	std::rename(tmpfile.c_str(),file_out.c_str());
-        //Scripts script ;
-       // g_Scripts->AddScript(script_file.c_str());
-            //_pNodes->SendCmd (target, sender, id, cmd);
-		nanosleep(&WaitEndCmommand,NULL); // Delay 400 mili. this prevend lost frame if multi transmit
-	}
-
-	*result = 1;
-	return 1;
-}
- * 
- 
- */
 } /* namespace WebServer */
 
