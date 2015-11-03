@@ -31,7 +31,7 @@ Scripts::~Scripts ()
 }
 void Scripts::ReloadScript (const char *name)
 {
-        for (auto it = begin(); it != end(); it++) {
+        for (iterator it = begin(); it != end(); it++) {
             if ( strcmp((*it)->NameStr(),name)==0){
                 delete *it ;
                 erase(it);
@@ -55,7 +55,7 @@ void Scripts::LoadScript (const char *name)
 void Scripts::UnloadScript (const char *name)
 {
     printf ("Scripts::UnloadScript(%s)\n", name) ;    
-    for (auto it = begin(); it != end(); it++) {
+    for (iterator it = begin(); it != end(); it++) {
             if ( strcmp((*it)->NameStr(),name)==0){
                 delete *it ;
                 erase(it);
@@ -71,10 +71,11 @@ void Scripts::AddScript (const char *name)
 }
 void Scripts::LoadScripts ()
 {
-	string dir = PARAM_STR("lua-scripts.running_scripts_dir");
+	string running_dir = PARAM_STR("lua-scripts.running_scripts_dir");
+        string dir = PARAM_STR("lua-scripts.scripts_dir");
 	string pattern = PARAM_STR("lua-scripts.pattern");
 	StringList files ;
-	ListFiles (dir.c_str(), pattern.c_str(), files) ;
+	ListFiles (running_dir.c_str(), pattern.c_str(), files) ;
 
 	for (StringList::iterator it = files.begin(); it != files.end(); ++it) {
 		string full = dir + "/" + it->c_str() ;
