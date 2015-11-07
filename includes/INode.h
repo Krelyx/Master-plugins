@@ -29,7 +29,9 @@ typedef enum {
 	CMD_LINK  = 0			//Link a node to the master 
 	, CMD_ON				//Send a ON command to node data = N° output
 	, CMD_OFF				//Send a OFF command to node data = N° output
-	, CMD_RESET				//Ask a node to reset is configuration 
+	, CMD_RESET				//Ask a node to reset is configuration
+        , CMD_SET
+        , CMD_ASK_DATA
 } eCmdType ;
 
 // Définie un type de structure Signal_t

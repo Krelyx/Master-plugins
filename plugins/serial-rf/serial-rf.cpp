@@ -19,7 +19,7 @@ SerialRF::SerialRF ()
 {
 	mWaitAck	= false ;
 	mSomething2Send = false ;
-	mTimeOutAck = 500 ;
+	mTimeOutAck = 1000 ;
 }
 
 bool SerialRF::ReadHeader ()

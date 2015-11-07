@@ -55,10 +55,13 @@ int NodeRequestHandler::Run(const HTTPRequest *request, HTTPResponse *response) 
 		Manage2Param (request, root, CMD_LINK) ;
 	}else if(url.compare("reset") == 0){
 		Manage2Param (request, root, CMD_RESET) ;
+        }else if(url.compare("askdata") == 0){
+		Manage2Param (request, root, CMD_ASK_DATA) ;
+	}else if(url.compare("set") == 0){
+		Manage3Param (request, root, CMD_SET) ;
         }else if(url.compare("") != 0){
 		SetResponse (root, NULL, "node information") ;
         }
-        
 #ifdef TESTS_
 	else if(url.compare("pause") == 0){
 		Manage2Param (request, root, CMD_PAUSE) ;
@@ -66,9 +69,7 @@ int NodeRequestHandler::Run(const HTTPRequest *request, HTTPResponse *response) 
 	else if(url.compare("debug") == 0){
 		Manage2Param (request, root, CMD_DEBUG) ;
 	}
-	else if(url.compare("askdata") == 0){
-		Manage2Param (request, root, CMD_ASK_DATA) ;
-	}
+	
 	else if(url.compare("timeout") == 0){
 		Manage3Param (request, root, CMD_SETUP) ;
 	}

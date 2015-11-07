@@ -18,7 +18,7 @@ void Frame_t::DataToFrame(uint8_t transmitter, uint8_t receiver, uint8_t type_)
 
 void Frame_t::AddCmd(uint8_t typeIn, uint8_t dataIn)
 {
-	data[taille] = typeIn<<4;
+	data[taille] = typeIn;
 	data[taille+1] = dataIn;
 	taille += 2;
 }
@@ -53,12 +53,12 @@ void Frame_t::Dump (const char * msg)
 
 
 	sprintf(sztmp,"Data Hex: ");
-	for (int a=0;a<taille-1;a++)
+	for (int a=0;a<taille;a++)
 		sprintf(sztmp,"%s 0x%02X",sztmp,data[a]);
 	YDLE_DEBUG << sztmp;
 
 	sprintf(sztmp,"Data Dec: ");
-	for (int a=0;a<taille-1;a++)
+	for (int a=0;a<taille;a++)
 		sprintf(sztmp,"%s %d",sztmp,data[a]);
 	YDLE_DEBUG << sztmp;
 }
