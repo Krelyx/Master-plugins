@@ -38,19 +38,13 @@ void restLoggerDestination::run(){
 			int m_size = this->messages.size();
 			log_message m;
 			// Récupération des messages
-			Json::Value doc;
-			Json::Value item;
 			for(int i = 0; i < m_size; ++i){
 				m = this->messages.front();
 				//item[i] = new Json::Value();
-				item["level"] = (int)m.level;
-				item["message"] = m.log_line;
-				doc.append(item);
 				this->messages.pop();
+				this->Sending(m);
 			}
 			queue_mutex.unlock();
-			// Envois groupé des messages
-			this->Sending(doc);
 		}
 		// Si le lock à fonctionné mais que la liste était vide
 		queue_mutex.unlock();
@@ -74,7 +68,7 @@ void restLoggerDestination::Sending(Json::Value & message){
 		// Build POST request
 		std::stringstream request;
 		std::string req_param;
-		request << "http://" << this->hub_url << "/api/logs/add";
+		request << "http://" << this->hub_url << "/logs/add";
 		req_param = request.str();
 		Json::FastWriter writer;
 
@@ -119,7 +113,7 @@ void restLoggerDestination::Sending(log_message & message){
 		// Build get request
 		std::stringstream request;
 		std::string req_param;
-		request << "http://" << this->hub_url << "/api/logs/add";
+		request << "http://" << this->hub_url << "/logs/add";
 		req_param = request.str();
 
 		char *temp = curl_escape(message.log_line.c_str(), message.log_line.length());
